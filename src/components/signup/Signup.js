@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import {Link, Redirect} from 'react-router-dom';
 
 
@@ -27,24 +28,40 @@ handleSubmit = event => {
     console.log(this.state);
     const password = this.state.password;
     const email = this.state.email;
+    const phone = this.state.mobileNo;
+
+    let isValidated = true;
+
+
     if(password.length<5)
     {
         alert("Password can not be less than 5")
+        isValidated = false;
      }
 
-     if(!email.includes("@"))
+     if(!email.includes("@")){
         alert("Email not valid");
+        isValidated = false;
+     }
+
+     if(phone.includes("0-9")){
+         alert("phone number can accept numbers only");
+         isValidated = false;
+     }
+     if(isValidated){
+            axios.post("http://localhost:2019/addUser", this.state)
+            .then( res => {
+                alert(res.data);
+            })
+            .catch( err => {
+                console.log(err);
+            })
+            this.props.history.push("/login");
+    }
 
 
-    axios.post("http://localhost:2019/addUser", this.state)
-    .then( res => {
-        alert(res.data);
-    })
-    .catch( err => {
-        console.log(err);
-    })
 
-    this.props.history.push("/login");
+    
 
 }
     render () {
@@ -88,4 +105,4 @@ handleSubmit = event => {
     }
 }
 
-export default Signup;
+export default withRouter(Signup);

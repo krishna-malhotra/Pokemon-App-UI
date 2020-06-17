@@ -23,8 +23,8 @@ class MyPokemonList extends Component {
         })
         return (
             <div>
-                <div className="row mx-auto">
-                <h1 style={{fontStyle:'italic', fontWeight:'bolder'}}>My Liked Pokemons </h1>
+                <div className="container text-uppercase mx-auto text-center">
+                <h1 style={{fontStyle:'italic', fontWeight:'bolder'}}>Saved Pokemons </h1>
                 </div>
               <div className="row">
                  
