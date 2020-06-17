@@ -24,7 +24,7 @@ class App extends Component {
           <NavBar />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={Signup} />
+              <ReRoute exact path="/" component={Signup} />
               <ReRoute exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <Authentication exact path="/dashboard" component={Dashboard}/>

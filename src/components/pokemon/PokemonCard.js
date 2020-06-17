@@ -37,7 +37,6 @@ export default class PokemonCard extends Component {
     imageUrl: '',
     pokemonIndex: '',
     imageLoading: true,
-    toManyRequests: false
   };
 
   componentDidMount() {
@@ -66,22 +65,12 @@ export default class PokemonCard extends Component {
               className="card-img-top rounded mx-auto mt-2"
               src={this.state.imageUrl}
               onLoad={() => this.setState({ imageLoading: false })}
-              onError={() => this.setState({ toManyRequests: true })}
               style={
-                this.state.toManyRequests
-                  ? { display: 'none' }
-                  : this.state.imageLoading
+                 this.state.imageLoading
                   ? null
                   : { display: 'block' }
               }
             />
-            {this.state.toManyRequests ? (
-              <h6 className="mx-auto">
-                <span className="badge badge-danger mt-2">
-                  To Many Requests
-                </span>
-              </h6>
-            ) : null}
             <div className="card-body mx-auto">
               <h6 className="card-title text-capitalize">
                 {this.state.name}

@@ -15,14 +15,12 @@ class MyPokemonList extends Component {
            this.setState({pokemonIds: res.data})
        })
        .catch(err => alert(err));
-
-       this.state.pokemonIds.sort( function(a,b) {
-           return a-b;
-       })
     }
 
     render() {
-    
+        this.state.pokemonIds.sort( function(a,b) {
+            return a-b;
+        })
         return (
             <div>
                 <div className="row mx-auto">
