@@ -136,7 +136,6 @@ export default class Pokemon extends Component {
 
       Axios.get(checkLikeStatusUrl, {headers : {Authorization: sessionStorage.getItem("basicAuth")}})
       .then(res => {
-        alert(res.data)
         if(res.data)
           this.setState({liked: true})
         else
@@ -198,6 +197,8 @@ export default class Pokemon extends Component {
     .catch(err => alert(err));
 
     this.setState({liked:true});
+    this.props.history.push("/dashboard");
+
   }
 
   handleRemovePokemon = event => {

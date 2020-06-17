@@ -12,6 +12,8 @@ import Signup from './components/signup/Signup'
 import Login from './components/login/Login'
 import Authentication from './components/login/Authenticate';
 import ReRoute from './components/login/ReRoute'
+import MyPokemonList from './components/pokemon/MyPokemonList';
+import MyPokemonCards from './components/pokemon/MyPokemonCard';
 
 class App extends Component {
 
@@ -27,6 +29,8 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Authentication exact path="/dashboard" component={Dashboard}/>
               <Authentication exact path="/pokemon/:pokemonIndex" component={Pokemon} />
+              <Authentication exact path = "/myPokemonsList" component={MyPokemonList} />
+              <Authentication exact path = "/myPokemonsCards" component={MyPokemonCards} />
             </Switch>
           </div>
         </div>
