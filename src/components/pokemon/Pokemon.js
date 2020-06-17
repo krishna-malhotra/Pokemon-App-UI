@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-
+import { Route } from 'react-router-dom';
+import Dashboard from '../layout/Dashboard'
 const TYPE_COLORS = {
   bug: 'B1C12E',
   dark: '4F3A2D',
@@ -50,7 +51,7 @@ export default class Pokemon extends Component {
     evs: '',
     hatchSteps: '',
     themeColor: '#EF5350',
-    liked: false,
+    liked: ''
     
   };
 
@@ -59,6 +60,9 @@ export default class Pokemon extends Component {
 
     const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonIndex}/`;
     const pokemonSpeciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${pokemonIndex}/`;
+    const checkLikeStatusUrl = `http://localhost:2019/checkLiked/${pokemonIndex}`;
+
+   
 
     const pokemonRes = await Axios.get(pokemonUrl);
 
@@ -129,6 +133,17 @@ export default class Pokemon extends Component {
           return;
         }
       });
+
+      Axios.get(checkLikeStatusUrl, {headers : {Authorization: sessionStorage.getItem("basicAuth")}})
+      .then(res => {
+        alert(res.data)
+        if(res.data)
+          this.setState({liked: true})
+        else
+          this.setState({liked:false})
+      })
+      .catch(err => alert(err))
+
       const femaleRate = res.data['gender_rate'];
       const genderRatioFemale = 12.5 * femaleRate;
       const genderRatioMale = 12.5 * (8 - femaleRate);
@@ -173,17 +188,39 @@ export default class Pokemon extends Component {
     });
   }
 
- 
+  handleAddPokemon = (event) => {
+    event.preventDefault();
+    const pokId = this.state.pokemonIndex;
+    const url = `http://localhost:2019/addPokemon/${pokId}`;
+
+    Axios.get(url,  { headers: { Authorization: sessionStorage.getItem("basicAuth") } } )
+    .then(res => alert(res.data))
+    .catch(err => alert(err));
+
+    this.setState({liked:true});
+  }
+
+  handleRemovePokemon = event => {
+    event.preventDefault();
+    const pokId = this.state.pokemonIndex;
+    const url = `http://localhost:2019/deleteFav/${pokId}`;
+
+    Axios.delete(url, {headers: {Authorization: sessionStorage.getItem("basicAuth")}})
+    .then(res => alert(res.data))
+    .catch(err => alert(err))
+
+
+    this.props.history.push("/dashboard");
+  }
  
   render() {
- const pokemonIndex = this.state.pokemonIndex;
- const dbUrl = "http://localhost:2019/test";
-   function  addPokemon() {
-     Axios.get(dbUrl).then(res => {
-         alert(res.data);
-     });
-      
-    }
+    const renderLikeButton = () => {
+       console.log(this.state.liked)
+        if(this.state.liked)
+          return <button className="btn btn-danger btn-block" onClick={this.handleRemovePokemon}>Remove</button>
+        else
+          return <button className="btn btn-success btn-block" onClick={this.handleAddPokemon}>Add To Fav</button>
+      }
     return (
       <div className="col">
         <div className="card">
@@ -453,7 +490,9 @@ export default class Pokemon extends Component {
         </div>
 
         <div className="row col-md-12 mt-2">
-            <button className="btn btn-danger btn-block" onClick={addPokemon}>Like</button>
+          {
+           renderLikeButton()
+          }
         </div>
       </div>
     );

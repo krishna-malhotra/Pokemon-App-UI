@@ -30,6 +30,7 @@ class Login extends Component {
                     sessionStorage.setItem("username",res.email);
                     const authString = 'Basic '+ btoa(res.email+":"+res.password);
                     sessionStorage.setItem("basicAuth",authString);
+                    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem("basicAuth");
                     this.props.history.push("/dashboard")
                 }else{
                     alert("No user found!");
